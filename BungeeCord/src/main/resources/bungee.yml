@@ -1,0 +1,3 @@
+name: BungeeCordLinkersPortal
+version: @version@
+main: world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal
