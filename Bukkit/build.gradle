@@ -8,8 +8,8 @@ plugins {
 group = 'world.ddpn'
 version = '0.0.1'
 
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 
 tasks.withType(JavaCompile) {
@@ -29,7 +29,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    implementation 'com.google.code.gson:gson:2.8.7'
 }
 
 processResources {

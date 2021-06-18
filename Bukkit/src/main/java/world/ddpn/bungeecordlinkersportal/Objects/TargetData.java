@@ -1,0 +1,28 @@
+package world.ddpn.bungeecordlinkersportal.Objects;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class TargetData {
+
+    public TargetData(String username, String Target){
+        this.username = username;
+        this.Target = Target;
+    }
+
+    @SerializedName("username")
+    @Expose
+    private String username;
+
+    @SerializedName("Target")
+    @Expose
+    private String Target;
+
+    public String getName() {
+        return this.username;
+    }
+
+    public String getTarget() {
+        return this.Target;
+    }
+}

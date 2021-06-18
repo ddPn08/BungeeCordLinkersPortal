@@ -3,3 +3,5 @@ version: @version@
 main: world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal
 api-version: 1.16
 authors: [ddPn08]
+commands:
+  linkersportal:
