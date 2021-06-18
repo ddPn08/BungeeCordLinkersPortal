@@ -9,6 +9,7 @@ public class RegisterListeners {
     
     public static void register(BungeeCordLinkersPortal plugin){
         Listener[] listeners = new Listener[]{
+            new BlockPlaceListener(plugin),
             new BlockBreakListener(plugin),
             new PlayerInteractListener(plugin),
             new PlayerMoveListener(plugin)

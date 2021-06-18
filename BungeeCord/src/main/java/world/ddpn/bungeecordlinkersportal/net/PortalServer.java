@@ -1,5 +1,6 @@
 package world.ddpn.bungeecordlinkersportal.net;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -9,9 +10,11 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
 
 public class PortalServer {
@@ -19,10 +22,22 @@ public class PortalServer {
     private BungeeCordLinkersPortal plugin;
     private ServerSocket ss;
     private Boolean enabled = false;
+    private Configuration config;
 
     public PortalServer(BungeeCordLinkersPortal plugin) throws IOException{
         this.plugin = plugin;
-        ss = new ServerSocket(25566);
+        config = null;
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class)
+                    .load(new File(plugin.getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (config == null)
+            return;
+        
+        ss = new ServerSocket(config.getInt("port"));
     }
 
     public void enable() {
@@ -34,7 +49,6 @@ public class PortalServer {
                     while (enabled) {
                         Socket socket = ss.accept();
 
-
                         byte[] data = new byte[1024];
                         InputStream input = socket.getInputStream();
                         int readSize = input.read(data);
@@ -44,14 +58,13 @@ public class PortalServer {
 
                         methodRouter(gson.fromJson(new String(data, "UTF-8"), ConnectionData.class), socket);
 
-                        plugin.getLogger().info("GET : \n" + new String(data, "UTF-8") + "\n");
-
                         input.close();
                         socket.close();
                     }
                     ss.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    enabled = false;
+                    plugin.getLogger().warning("ソケットサーバーでエラーが発生しました。");
                 }
             }
         });
@@ -78,7 +91,6 @@ public class PortalServer {
 
         switch (data.getMethod()) {
             case "sendPlayer": {
-                plugin.getLogger().warning("called");
                 TargetData targetData = gson.fromJson(data.getData(), TargetData.class);
                 ProxiedPlayer player = plugin.getProxy().getPlayer(targetData.getName());
 
@@ -93,7 +105,6 @@ public class PortalServer {
                     break;
                 }
 
-                player.sendMessage(new TextComponent(data.getData()));
                 player.connect(plugin.getProxy().getServerInfo(targetData.getTarget()));
 
                 break;

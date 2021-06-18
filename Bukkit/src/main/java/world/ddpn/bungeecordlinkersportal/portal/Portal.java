@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
 
@@ -24,11 +23,11 @@ public class Portal {
 
     @SerializedName("Parent")
     @Expose
-    private String Parent;
+    private String Parent = null;
 
     @SerializedName("Target")
     @Expose
-    private String Target;
+    private String Target = null;
 
     @SerializedName("pos1")
     @Expose

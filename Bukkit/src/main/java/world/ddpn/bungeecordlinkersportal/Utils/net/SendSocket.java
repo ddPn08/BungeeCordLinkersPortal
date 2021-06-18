@@ -11,8 +11,6 @@ public class SendSocket {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable(){
             @Override
             public void run(){
-                System.out.println(TargetIP + ":" + String.valueOf(TargetPort) + "\n" + data);
-
                 Socket socket = null;
                 OutputStream outputStream = null;
                 InputStream inputStream  = null;

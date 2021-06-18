@@ -2,10 +2,9 @@ package world.ddpn.bungeecordlinkersportal;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import world.ddpn.bungeecordlinkersportal.Listeners.RegisterListeners;

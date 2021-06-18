@@ -14,7 +14,7 @@ const client = net.connect('25566', 'localhost', () => {
         data: JSON.stringify(data)
     }
 
-    client.write(JSON.stringify(connectionData));
+    client.write("ajohdfajks");
 });
 
 client.on('data', data => {

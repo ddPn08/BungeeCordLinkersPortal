@@ -3,12 +3,16 @@ package world.ddpn.bungeecordlinkersportal.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.PlainDocument;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
+import net.md_5.bungee.api.ChatColor;
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
 import world.ddpn.bungeecordlinkersportal.Utils.MessageUtil;
 import world.ddpn.bungeecordlinkersportal.portal.Portal;
@@ -24,8 +28,12 @@ public class LinkersPortal implements TabExecutor{
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length < 1)
+        if (args.length < 1){
+            sender.sendMessage(ChatColor.GOLD + "[Description]"
+                    + ChatColor.AQUA + "\nTitle : "+ ChatColor.LIGHT_PURPLE + plugin.getDescription().getName()
+                    + ChatColor.AQUA + "\nVersion : " + ChatColor.LIGHT_PURPLE + plugin.getDescription().getVersion());
             return false;
+        }
 
         PortalManager manager = plugin.getPortalManager();
         switch (args[0]) {
@@ -134,12 +142,14 @@ public class LinkersPortal implements TabExecutor{
         List<String> completes = new ArrayList<>();
 
         PortalManager manager = plugin.getPortalManager();
+        if(args.length == 1){
+            completes.add("select");
+            completes.add("create");
+            completes.add("fill");
+            completes.add("delete");
+            completes.add("setTarget");
+        }
 
-        completes.add("select");
-        completes.add("create");
-        completes.add("fill");
-        completes.add("delete");
-        completes.add("setTarget");
 
         if (args.length == 2) {
             completes.clear();
@@ -163,6 +173,14 @@ public class LinkersPortal implements TabExecutor{
                 completes.add("LEGACY_PORTAL");
                 completes.add("GLASS_PANE");
                 completes.add("IRON_BARS");
+            }
+
+            if(args[0].equals("setTarget")){
+                completes.clear();
+                FileConfiguration config = plugin.getConfig();
+                ConfigurationSection parents = config.getConfigurationSection("parents");
+                for(String key : parents.getKeys(false))
+                    completes.add(key);
             }
         }
 

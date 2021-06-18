@@ -32,8 +32,6 @@ public class PortalManager {
 
         File portalsFIle            = (new File(plugin.getDataFolder() , "Portals.json"));
 
-        this.plugin.getLogger().info(FileUtil.fileToString(portalsFIle.getPath()));
-
         portalList = Arrays.stream(gson.fromJson(FileUtil.fileToString(portalsFIle.getPath()),Portal[].class))
                                            .collect(Collectors.toSet());
 

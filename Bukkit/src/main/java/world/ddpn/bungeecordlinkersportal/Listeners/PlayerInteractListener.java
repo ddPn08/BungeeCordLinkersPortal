@@ -27,8 +27,7 @@ public class PlayerInteractListener implements Listener{
 
         Block block = event.getClickedBlock();
         manager.setPos2(block);
-        event.getPlayer().sendMessage(MessageUtil.info("pos2を X:" + String.valueOf(block.getX()) + ", Y:"
-                + String.valueOf(block.getY()) + " ,Z:" + String.valueOf(block.getZ()) + "に設定しました。"));
+        event.getPlayer().sendMessage(MessageUtil.info("pos2を X:" + String.valueOf(block.getX()) + ", Y:" + String.valueOf(block.getY()) + " ,Z:" + String.valueOf(block.getZ()) + "に設定しました。"));
     }
 
 }

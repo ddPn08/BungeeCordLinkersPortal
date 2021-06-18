@@ -27,9 +27,6 @@ public class BlockBreakListener implements Listener{
 
         Block block = event.getBlock();
         manager.setPos1(block);
-        event.getPlayer().sendMessage(MessageUtil.info("pos1を X:" + String.valueOf(block.getX())  
-            + ", Y:" +  String.valueOf(block.getY()) 
-            + " ,Z:" +  String.valueOf(block.getZ()) 
-            + "に設定しました。"));
+        event.getPlayer().sendMessage(MessageUtil.info("pos1を X:" + String.valueOf(block.getX()) + ", Y:" +  String.valueOf(block.getY()) + " ,Z:" +  String.valueOf(block.getZ()) + "に設定しました。"));
     }
 }
