@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
+import world.ddpn.bungeecordlinkersportal.Objects.CreateSession;
 import world.ddpn.bungeecordlinkersportal.Utils.MessageUtil;
 import world.ddpn.bungeecordlinkersportal.portal.PortalManager;
 
@@ -20,13 +21,14 @@ public class BlockBreakListener implements Listener{
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event){
-        if (!plugin.isSelecting())
+        CreateSession session = this.plugin.getSettion(event.getPlayer().getName());
+        if (session == null)
             return;
         event.setCancelled(true);
         PortalManager manager = plugin.getPortalManager();
 
         Block block = event.getBlock();
-        manager.setPos1(block);
+        session.setPos1(block);
         event.getPlayer().sendMessage(MessageUtil.info("pos1を X:" + String.valueOf(block.getX()) + ", Y:" +  String.valueOf(block.getY()) + " ,Z:" +  String.valueOf(block.getZ()) + "に設定しました。"));
     }
 }

@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import net.md_5.bungee.api.ChatColor;
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
+import world.ddpn.bungeecordlinkersportal.Objects.CreateSession;
 import world.ddpn.bungeecordlinkersportal.Utils.MessageUtil;
 import world.ddpn.bungeecordlinkersportal.portal.Portal;
 import world.ddpn.bungeecordlinkersportal.portal.PortalManager;
@@ -36,20 +37,22 @@ public class LinkersPortal implements TabExecutor{
         PortalManager manager = plugin.getPortalManager();
         switch (args[0]) {
             case "select": {
-                if (plugin.isSelecting()) {
-                    plugin.getPortalManager().cancel();
+                CreateSession session = plugin.getSettion(sender.getName());
+                if (session != null) {
+                    this.plugin.deleteSession(session);
                     sender.sendMessage(MessageUtil.info("セレクトモードがオフになりました。"));
                     break;
                 }
 
-                plugin.setSelecting(true);
+                this.plugin.addCreateSession(sender.getName());
                 sender.sendMessage(MessageUtil.info("セレクトモードがオンになりました。"));
 
                 break;
             }
 
             case "create":{
-                if(!plugin.isSelecting()){
+                CreateSession session = plugin.getSettion(sender.getName());
+                if(session == null || !session.enough()){
                     sender.sendMessage(MessageUtil.error("範囲を選択してください。"));
                     break;
                 }
@@ -63,8 +66,7 @@ public class LinkersPortal implements TabExecutor{
                     sender.sendMessage(MessageUtil.error("すでに登録されています。"));
                     break;
                 }
-
-                manager.Create(args[1]);
+                manager.Create(args[1],session);
                 sender.sendMessage(MessageUtil.info("ポータル(" + args[1] + ") を作成しました。"));
 
                 break;
@@ -98,8 +100,14 @@ public class LinkersPortal implements TabExecutor{
                     sender.sendMessage(MessageUtil.error("ブロックIDを入力してください。\nex) /linkersportal delete <PortalName>"));
                     break;
                 }
-                
-                manager.fill(args[1],Material.valueOf(args[2]));
+                Material material;
+                try {
+                    material = Material.valueOf(args[2].toUpperCase());
+                } catch (Exception e) {
+                    sender.sendMessage(MessageUtil.error("そのようなブロックはありません。"));
+                    break;
+                }
+                manager.fill(args[1],material);
                 sender.sendMessage(MessageUtil.info("ポータル("+ args[1] +") を" + args[2] + "で埋めました。"));
 
                 break;

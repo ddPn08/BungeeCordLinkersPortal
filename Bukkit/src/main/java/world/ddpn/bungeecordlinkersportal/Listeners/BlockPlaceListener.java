@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
+import world.ddpn.bungeecordlinkersportal.Objects.CreateSession;
 
 public class BlockPlaceListener implements Listener {
     
@@ -16,7 +17,8 @@ public class BlockPlaceListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event){
-        if(!plugin.isSelecting())
+        CreateSession session = this.plugin.getSettion(event.getPlayer().getName());
+        if (session == null)
             return;
 
         event.setCancelled(true);

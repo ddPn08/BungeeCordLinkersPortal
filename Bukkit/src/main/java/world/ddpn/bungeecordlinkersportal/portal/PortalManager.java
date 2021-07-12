@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import world.ddpn.bungeecordlinkersportal.BungeeCordLinkersPortal;
+import world.ddpn.bungeecordlinkersportal.Objects.CreateSession;
 import world.ddpn.bungeecordlinkersportal.Utils.FileUtil;
 
 public class PortalManager {
@@ -19,14 +20,8 @@ public class PortalManager {
     private BungeeCordLinkersPortal plugin;
     private Set<Portal> portalList;
 
-    private Block pos1;
-    private Block pos2;
-
     public PortalManager(BungeeCordLinkersPortal plugin){
         this.plugin = plugin;
-        
-        this.pos1 = null;
-        this.pos2 = null;
 
         Gson gson = new GsonBuilder().create();
 
@@ -41,14 +36,6 @@ public class PortalManager {
         }   
     }
 
-    public void setPos1 (Block pos1){
-        this.pos1 = pos1;
-    }
-
-    public void setPos2(Block pos2) {
-        this.pos2 = pos2;
-    }
-
     public Boolean exist(String name){
         Portal portal = portalList.stream().filter(v -> v.getName().equals(name)).findFirst().orElse(null);
         if(portal == null)
@@ -57,14 +44,11 @@ public class PortalManager {
         return true;
     }
 
-    public void Create(String name){
-        Portal portal = new Portal(pos1, pos2, name, this.plugin);
+    public void Create(String name,CreateSession session){
+        Portal portal = new Portal(session.getPos1(), session.getPos2(), name, this.plugin);
         this.portalList.add(portal);
 
-        this.pos1 = null;
-        this.pos2 = null;
-
-        plugin.setSelecting(false);
+        this.plugin.deleteSession(session);
 
         try {
             this.updateFile();
@@ -110,13 +94,6 @@ public class PortalManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void cancel(){
-        this.pos1 = null;
-        this.pos2 = null;
-
-        plugin.setSelecting(false);
     }
 
     public Set<Portal> getPortalList(){

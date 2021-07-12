@@ -1,6 +1,6 @@
 package world.ddpn.bungeecordlinkersportal.Utils;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class MessageUtil {
 

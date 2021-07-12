@@ -52,6 +52,12 @@ public class PortalServer {
                         byte[] data = new byte[1024];
                         InputStream input = socket.getInputStream();
                         int readSize = input.read(data);
+                        if(readSize < 0){
+                            input.close();
+                            socket.close();
+                            continue;
+                        }
+
                         data = Arrays.copyOf(data, readSize);
 
                         Gson gson = new Gson();

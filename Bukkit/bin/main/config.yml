@@ -1,2 +1,4 @@
 parents:
-  example: example.com
+  example:
+    host: example.com
+    port: 25566
