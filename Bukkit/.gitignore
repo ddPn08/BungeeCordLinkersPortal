@@ -6,6 +6,7 @@
 *.iws
 
 debug.bat
+.classpath
 
 # IntelliJ
 out/
