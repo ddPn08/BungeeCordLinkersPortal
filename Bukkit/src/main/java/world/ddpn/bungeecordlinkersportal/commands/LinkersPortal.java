@@ -3,6 +3,8 @@ package world.ddpn.bungeecordlinkersportal.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -135,6 +137,14 @@ public class LinkersPortal implements TabExecutor{
                 sender.sendMessage(MessageUtil.info("ポータル(" + args[1] + ") の送信先を" + args[2] + " の " + args[3] + "に設定しました。"));
                 
                 break;
+            }
+
+            case "debug":{
+                ByteArrayDataOutput o = ByteStreams.newDataOutput();
+                o.writeUTF("test");
+                o.writeUTF("testData");
+
+                this.plugin.getServer().sendPluginMessage(this.plugin,"BungeeCordLinkersPortal",o.toByteArray());
             }
 
             default:

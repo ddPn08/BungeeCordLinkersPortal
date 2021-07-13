@@ -8,12 +8,13 @@ import java.nio.file.Files;
 import net.md_5.bungee.api.plugin.Plugin;
 import world.ddpn.bungeecordlinkersportal.net.PortalServer;
 
-public final class BungeeCordLinkersPortal extends Plugin {
+public final class BungeeCordLinkersPortal extends Plugin{
 
     private PortalServer server;
 
     @Override
     public void onEnable() {
+        this.getProxy().registerChannel("BungeeCordLinkersPortal");
 
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
@@ -34,10 +35,5 @@ public final class BungeeCordLinkersPortal extends Plugin {
             e.printStackTrace();
         }
         server.enable();
-    }
-
-    @Override
-    public void onDisable() {
-        server.disable();
     }
 }
